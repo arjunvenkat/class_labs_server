@@ -1,0 +1,3 @@
+<% publish_to '/tasks/new' do %>
+  $("#tasks").append("<li><%= j(@task.description) %></li>");
+<% end %>

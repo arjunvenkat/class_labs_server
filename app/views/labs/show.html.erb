@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+<div>
+  <p>
+    <b>Name:</b>
+    <%= @lab.name %>
+  </p>
+
+  <ul id="tasks">
+    <% @tasks.each do |task| %>
+      <li><%= task.description %></li>
+    <% end %>
+  </ul>
+
+  <%= form_for(Task.new, remote: true) do |f| %>
+      <%= f.hidden_field :lab_id, value: @lab.id %>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_field :description %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>
+<div>
+  <h2>class list</h2>
+  <ul>
+    <% @enlistments.each do |enlistment| %>
+      <li id="<%= enlistment.user.name %>">
+        <%= enlistment.user.name %>
+        <% if enlistment.user.status == "red_light" %>
+          <%= link_to(link_to("good to go", set_status_user_path(enlistment.user.id, status: "green_light", lab_id: enlistment.lab.id), remote: true)) %>
+          <%= image_tag('red_dot.png', size: "16x16") %>
+        <% elsif enlistment.user.status == "green_light" %>
+          <%= link_to("help!", set_status_user_path(enlistment.user.id, status: "red_light", lab_id: enlistment.lab.id ), remote: true) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+</div>
+
+
+
+<%= link_to 'Edit', edit_lab_path(@lab) %> |
+<%= link_to 'Back', labs_path %>
+
+<%= subscribe_to "/tasks/new" %>
+<%= subscribe_to "/status/update" %>
