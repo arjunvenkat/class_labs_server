@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(:version => 20130120034359) do
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.string   "name"
-    t.string   "status"
+    t.string   "status",          :default => "green_light"
   end
 
 end
